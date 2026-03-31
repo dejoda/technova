@@ -1,0 +1,44 @@
+package gm.technova.mapper;
+
+
+import gm.technova.dto.*;
+import gm.technova.Entity.*;
+
+import java.util.stream.Collectors;
+public class ProductoMapper {
+
+    //---
+    public static ProductoDetalleDTO toDetalleDTO(Producto producto) {
+
+        ProductoDetalleDTO dto = new ProductoDetalleDTO();
+
+        dto.setId(producto.getIdProducto());
+        dto.setNombre(producto.getNombre());
+        dto.setDescripcion(producto.getDescripcion());
+        dto.setPrecio(producto.getPrecio());
+        dto.setStock(producto.getStock());
+        dto.setCategoria(producto.getCategoria().getNombre());
+
+        if (producto.getImagenes() != null) {
+            dto.setImagenes(
+                    producto.getImagenes().stream().map(img -> {
+                        ProductoImagenDTO i = new ProductoImagenDTO();
+                        i.setUrlImagen(img.getUrlImagen());
+                        i.setPrincipal(img.getPrincipal());
+                        return i;
+                    }).collect(Collectors.toList())
+            );
+        }
+        if (producto.getCaracteristicas() != null) {
+            dto.setCaracteristicas(
+                    producto.getCaracteristicas().stream().map(c -> {
+                        ProductoCaracteristicaDTO cdto = new ProductoCaracteristicaDTO();
+                        cdto.setNombre(c.getCaracteristica().getNombre());
+                        cdto.setValor(c.getValor());
+                        return cdto;
+                    }).collect(Collectors.toList())
+            );
+        }
+        return dto;
+    }
+}

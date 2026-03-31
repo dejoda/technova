@@ -1,0 +1,24 @@
+package gm.technova.service;
+
+import gm.technova.Entity.Producto;
+import gm.technova.dto.ProductoDetalleDTO;
+import gm.technova.mapper.ProductoMapper;
+import gm.technova.repository.ProductoRepository;
+
+import java.util.List;
+
+public interface ProductoService {
+
+    /*Metodos Basicos*/
+    List<Producto> listar();
+    Producto buscarPorId(Long id);
+    Producto guardar(Producto producto);
+    Producto actualizar(Long id, Producto producto);
+    void eliminar(Long id);
+
+    /*Metodos Avanzados*/
+
+    //Obtener todos los detalles del producto
+    ProductoDetalleDTO obtenerDetalle(Long id);
+
+}

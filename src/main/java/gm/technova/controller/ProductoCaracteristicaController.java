@@ -4,6 +4,7 @@ package gm.technova.controller;
 import gm.technova.Entity.Producto;
 import gm.technova.Entity.ProductoCaracteristica;
 import gm.technova.dto.ProductoCaracteristicaDTO;
+import gm.technova.dto.ProductoCaracteristicaInputDTO;
 import gm.technova.service.ProductoCaracteristicaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +24,14 @@ public class ProductoCaracteristicaController {
         return service.listar();
     }
 
-    @PostMapping
-    public ProductoCaracteristica guardar(@RequestBody ProductoCaracteristica pc) {
-        return service.guardar(pc);
+
+    //Agregar caracteristicas pero no crea una nueva caracteristica sino añade al producto
+    //una caracteristica y el valor
+    @PostMapping("/agregar")
+    public ProductoCaracteristica agregarCaracteristica(@RequestBody ProductoCaracteristicaInputDTO dto) {
+        return service.agregarCaracteristica(dto);
     }
+
 
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Long id) {

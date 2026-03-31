@@ -1,9 +1,14 @@
 package gm.technova.service.impl;
 
+import gm.technova.Entity.Caracteristica;
+import gm.technova.Entity.Producto;
 import gm.technova.Entity.ProductoCaracteristica;
 import gm.technova.dto.ProductoCaracteristicaDTO;
+import gm.technova.dto.ProductoCaracteristicaInputDTO;
 import gm.technova.mapper.ProductoCaracteristicaMapper;
+import gm.technova.repository.CaracteristicaRepository;
 import gm.technova.repository.ProductoCaracteristicaRepository;
+import gm.technova.repository.ProductoRepository;
 import gm.technova.service.ProductoCaracteristicaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,22 +22,22 @@ public class ProductoCaracteristicaServiceImpl implements ProductoCaracteristica
 
 
     @Autowired
-    private ProductoCaracteristicaRepository repository;
+    private ProductoCaracteristicaRepository ProductoCaracteristicarepository;
+    @Autowired
+    private ProductoRepository productoRepository;
+    @Autowired
+    private CaracteristicaRepository caracteristicaRepository;
 
     //METODOS BASICOS
     @Override
     public List<ProductoCaracteristica> listar() {
-        return repository.findAll();
+        return ProductoCaracteristicarepository.findAll();
     }
 
-    @Override
-    public ProductoCaracteristica guardar(ProductoCaracteristica pc) {
-        return repository.save(pc);
-    }
 
     @Override
     public void eliminar(Long id) {
-        repository.deleteById(id);
+        ProductoCaracteristicarepository.deleteById(id);
     }
     //
 
@@ -41,7 +46,7 @@ public class ProductoCaracteristicaServiceImpl implements ProductoCaracteristica
     /*Listar las caracteristicas del producto (USANDO DTO Y MAPPER)*/
     @Override
     public List<ProductoCaracteristicaDTO> listarCaracteristicasporProducto(Long idProducto) {
-        List<ProductoCaracteristica> lista = repository.findByProductoIdProducto(idProducto);
+        List<ProductoCaracteristica> lista = ProductoCaracteristicarepository.findByProductoIdProducto(idProducto);
 
         List<ProductoCaracteristicaDTO> dtoLista = new ArrayList<>();
 
@@ -50,6 +55,23 @@ public class ProductoCaracteristicaServiceImpl implements ProductoCaracteristica
         }
 
         return dtoLista;
+    }
+
+    @Override
+    public ProductoCaracteristica agregarCaracteristica(ProductoCaracteristicaInputDTO dto) {
+
+        Producto producto = productoRepository.findById(dto.getProductoId())
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        Caracteristica caracteristica = caracteristicaRepository.findById(dto.getCaracteristicaId())
+                .orElseThrow(() -> new RuntimeException("Característica no encontrada"));
+
+        ProductoCaracteristica pc = new ProductoCaracteristica();
+        pc.setProducto(producto);
+        pc.setCaracteristica(caracteristica);
+        pc.setValor(dto.getValor());
+
+        return ProductoCaracteristicarepository.save(pc);
     }
 
     //METODOS OMITIDOS -------

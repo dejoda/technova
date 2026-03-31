@@ -51,4 +51,13 @@ public class ProductoController {
     }
     /*ARCHIVOS USADOR --> ProductoController,ProductoMapper,ProductoRepository,ProductoServiceImpl,
                             ProductoService,ProductoDetalleDTO,ProductoImagen,ProductoCaracteristica,Producto*/
+
+
+
+    //Obtener Productos por Categoria
+
+    @GetMapping("/categoria/{id}")
+    public List<Producto> listarPorCategoria(@PathVariable Long id) {
+        return service.listarPorCategoria(id);
+    }
 }

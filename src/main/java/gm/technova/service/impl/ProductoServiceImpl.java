@@ -56,4 +56,9 @@ public class ProductoServiceImpl implements ProductoService {
         Producto producto = repository.obtenerProductoDetalle(id);
         return ProductoMapper.toDetalleDTO(producto);
     }
+
+    @Override
+    public List<Producto> listarPorCategoria(Long idCategoria) {
+        return repository.findByCategoriaIdCategoria(idCategoria);
+    }
 }

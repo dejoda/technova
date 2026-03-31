@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 
 
 @Repository
@@ -20,5 +21,8 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     WHERE p.idProducto = :id
     """)
     Producto obtenerProductoDetalle(@Param("id") Long id);
+
+
+    List<Producto> findByCategoriaIdCategoria(Long idCategoria);
 
 }

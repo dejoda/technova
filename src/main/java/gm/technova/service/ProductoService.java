@@ -21,4 +21,6 @@ public interface ProductoService {
     //Obtener todos los detalles del producto
     ProductoDetalleDTO obtenerDetalle(Long id);
 
+    //Listar Producto por categoria
+    List<Producto> listarPorCategoria(Long idCategoria);
 }

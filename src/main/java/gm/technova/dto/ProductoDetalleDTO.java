@@ -12,6 +12,10 @@ public class ProductoDetalleDTO {
     private Integer stock;
     private String categoria;
     private String descripcion;
+    private String marca;
+    private String modelo;
+    private Long garantia;
+
 
     private List<ProductoImagenDTO> imagenes;
     private List<ProductoCaracteristicaDTO> caracteristicas;

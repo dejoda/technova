@@ -25,6 +25,10 @@ public class Producto {
     private Double precio;
     private Integer stock;
     private String descripcion;
+    private String marca;
+    private String modelo;
+    private Long garantia;
+
 
     @ManyToOne
     @JoinColumn(name = "categoria_id") // ← ESTA ES LA CLAVE FORÁNEA REAL

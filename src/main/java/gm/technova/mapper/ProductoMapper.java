@@ -18,6 +18,9 @@ public class ProductoMapper {
         dto.setPrecio(producto.getPrecio());
         dto.setStock(producto.getStock());
         dto.setCategoria(producto.getCategoria().getNombre());
+        dto.setMarca(producto.getMarca());
+        dto.setModelo(producto.getModelo());
+        dto.setGarantia(producto.getGarantia());
 
         if (producto.getImagenes() != null) {
             dto.setImagenes(

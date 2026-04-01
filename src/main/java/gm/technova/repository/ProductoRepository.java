@@ -1,6 +1,7 @@
 package gm.technova.repository;
 
 import gm.technova.Entity.Producto;
+import gm.technova.dto.ProductopresentacionDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -41,4 +42,22 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
             Double maxPrecio,
             String nombre
     );
+
+
+    //Para productos y la presentacion la imagen que se proporciona es principal
+    @Query("""
+SELECT new gm.technova.dto.ProductopresentacionDTO(
+p.idProducto,
+p.nombre,
+p.precio,
+c.nombre,
+p.descripcion,
+p.marca,
+pi.urlImagen
+)
+FROM Producto p
+LEFT JOIN p.categoria c
+LEFT JOIN p.imagenes pi ON pi.principal = true
+""")
+    List<ProductopresentacionDTO> obtenerProductosPresentacion();
 }

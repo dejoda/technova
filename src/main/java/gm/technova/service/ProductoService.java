@@ -37,4 +37,7 @@ public interface ProductoService {
             String nombre
     );
 
+    //Listar marcas
+    List<String> listarMarcas();
+
 }

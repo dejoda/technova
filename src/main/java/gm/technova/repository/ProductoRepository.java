@@ -42,8 +42,6 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
             Double maxPrecio,
             String nombre
     );
-
-
     //Para productos y la presentacion la imagen que se proporciona es principal
     @Query("""
 SELECT new gm.technova.dto.ProductopresentacionDTO(
@@ -60,4 +58,8 @@ LEFT JOIN p.categoria c
 LEFT JOIN p.imagenes pi ON pi.principal = true
 """)
     List<ProductopresentacionDTO> obtenerProductosPresentacion();
+
+
+    @Query("SELECT DISTINCT p.marca FROM Producto p")
+    List<String> obtenerMarcas();
 }

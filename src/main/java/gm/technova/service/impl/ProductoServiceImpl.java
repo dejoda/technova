@@ -79,4 +79,9 @@ public class ProductoServiceImpl implements ProductoService {
                 .map(ProductoMapper::toPresentacionDTO)
                 .toList();
     }
+
+    @Override
+    public List<String> listarMarcas() {
+        return repository.obtenerMarcas();
+    }
 }

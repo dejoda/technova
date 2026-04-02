@@ -80,4 +80,13 @@ public class ProductoController {
                 categoria, marca, minPrecio, maxPrecio, nombre
         );
     }
+
+
+
+
+
+    @GetMapping("/marcas")
+    public List<String> listarMarcas() {
+        return service.listarMarcas();
+    }
 }

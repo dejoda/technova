@@ -29,6 +29,7 @@ public class CaracteristicaController {
     public Caracteristica guardar(@RequestBody Caracteristica caracteristica) {
         return service.guardar(caracteristica);
     }
+    /*    {"nombre": "Ergonomia" }*/
 
     @PutMapping("/{id}")
     public Caracteristica actualizar(@PathVariable Long id, @RequestBody Caracteristica caracteristica) {

@@ -31,6 +31,7 @@ public class ProductoCaracteristicaController {
     public ProductoCaracteristica agregarCaracteristica(@RequestBody ProductoCaracteristicaInputDTO dto) {
         return service.agregarCaracteristica(dto);
     }
+    /*{ "productoId": 11, "caracteristicaId": 12, "valor": "99g" }*/
 
 
     @DeleteMapping("/{id}")

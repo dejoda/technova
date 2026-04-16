@@ -32,6 +32,21 @@ public class ProductoController {
         return service.guardar(producto);
     }
 
+    /*
+    {
+    "nombre": "Logitech G305 Lightspeed Wireless Gaming Mouse",
+    "precio": 140.0,
+    "stock": 20,
+    "descripcion": "El Logitech G305 Lightspeed Wireless Gaming Mouse es un mouse gamer inalámbrico diseñado para ofrecer alto rendimiento a un precio accesible. Utiliza la tecnología LIGHTSPEED, que proporciona una conexión rápida y estable con una latencia muy baja (1 ms), similar a la de un mouse con cable.",
+    "marca": "Logitech",
+    "modelo": "G305",
+    "garantia": 12,
+    "categoria": {
+        "idCategoria": 5
+    }
+}*/
+
+
     @PutMapping("/{id}")
     public Producto actualizar(@PathVariable Long id, @RequestBody Producto producto) {
         return service.actualizar(id, producto);

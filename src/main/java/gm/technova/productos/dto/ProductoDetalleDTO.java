@@ -1,0 +1,22 @@
+package gm.technova.productos.dto;
+
+import lombok.Data;
+
+import java.util.List;
+
+@Data
+public class ProductoDetalleDTO {
+    private Long id;
+    private String nombre;
+    private Double precio;
+    private Integer stock;
+    private String categoria;
+    private String descripcion;
+    private String marca;
+    private String modelo;
+    private Long garantia;
+
+
+    private List<ProductoImagenDTO> imagenes;
+    private List<ProductoCaracteristicaDTO> caracteristicas;
+}

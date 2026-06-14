@@ -40,6 +40,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/productos/**").permitAll()
                         .requestMatchers("/categorias/**").permitAll()
+                        .requestMatchers("/images/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

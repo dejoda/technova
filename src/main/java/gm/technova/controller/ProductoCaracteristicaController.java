@@ -1,15 +1,15 @@
 package gm.technova.controller;
 
-
-import gm.technova.Entity.Producto;
 import gm.technova.Entity.ProductoCaracteristica;
 import gm.technova.dto.ProductoCaracteristicaDTO;
 import gm.technova.dto.ProductoCaracteristicaInputDTO;
 import gm.technova.service.ProductoCaracteristicaService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/producto-caracteristicas")
@@ -18,44 +18,73 @@ public class ProductoCaracteristicaController {
     @Autowired
     private ProductoCaracteristicaService service;
 
-    /*metodos basicos crud*/
+    /* =========================
+       CRUD BASICO
+    ========================= */
+
     @GetMapping
-    public List<ProductoCaracteristica> listar() {
-        return service.listar();
+    public Page<ProductoCaracteristica> listar(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        return service.listar(pageable);
     }
 
-
-    //Agregar caracteristicas pero no crea una nueva caracteristica sino añade al producto
-    //una caracteristica y el valor
+    // Agregar característica a producto
     @PostMapping("/agregar")
-    public ProductoCaracteristica agregarCaracteristica(@RequestBody ProductoCaracteristicaInputDTO dto) {
+    public ProductoCaracteristica agregarCaracteristica(
+            @RequestBody ProductoCaracteristicaInputDTO dto
+    ) {
+
         return service.agregarCaracteristica(dto);
     }
-    /*{ "productoId": 11, "caracteristicaId": 12, "valor": "99g" }*/
 
+    /*
+    {
+        "productoId": 11,
+        "caracteristicaId": 12,
+        "valor": "99g"
+    }
+    */
 
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Long id) {
+
         service.eliminar(id);
     }
 
-    /*METODOS QUE SE USAN CON EL MAPPER Y DTO */
+    /* =========================
+       DTO + MAPPER
+    ========================= */
 
     @GetMapping("/{id}/caracteristicas")
-    public List<ProductoCaracteristicaDTO> listarCaracteristicas(@PathVariable Long id) {
-        return service.listarCaracteristicasporProducto(id);
+    public Page<ProductoCaracteristicaDTO> listarCaracteristicas(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        return service.listarCaracteristicasporProducto(
+                id,
+                pageable
+        );
     }
 
+    /* =========================
+       METODOS OMITIDOS
+    ========================= */
 
-    /*METODOS OMITIDOS*/
-
-
-    /*BUSCAR POR ID PRODUCTO las caracterizticas pero jalando todo el producto*/
-
-    /* @GetMapping("/{id}/caracteristicas-completo")
-    public List<ProductoCaracteristica> listarCaracteristicasProductoCompleto(@PathVariable Long id) {
+    /*
+    @GetMapping("/{id}/caracteristicas-completo")
+    public List<ProductoCaracteristica> listarCaracteristicasProductoCompleto(
+            @PathVariable Long id
+    ) {
         return service.listarCaracteristicasPorProductoCompleto(id);
-    } */
-
-
+    }
+    */
 }

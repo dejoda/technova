@@ -3,41 +3,70 @@ package gm.technova.service;
 import gm.technova.Entity.Producto;
 import gm.technova.dto.ProductoDetalleDTO;
 import gm.technova.dto.ProductopresentacionDTO;
-import gm.technova.mapper.ProductoMapper;
-import gm.technova.repository.ProductoRepository;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface ProductoService {
 
-    /*Metodos Basicos*/
-    List<Producto> listar();
+    /* =========================
+       MÉTODOS BÁSICOS
+    ========================= */
+
+    // LISTAR PRODUCTOS PAGINADOS
+    Page<Producto> listar(
+            int page,
+            int size
+    );
+
+    // BUSCAR PRODUCTO POR ID
     Producto buscarPorId(Long id);
+
+    // GUARDAR PRODUCTO
     Producto guardar(Producto producto);
-    Producto actualizar(Long id, Producto producto);
+
+    // ACTUALIZAR PRODUCTO
+    Producto actualizar(
+            Long id,
+            Producto producto
+    );
+
+    // ELIMINAR PRODUCTO
     void eliminar(Long id);
 
-    /*Metodos Avanzados*/
+    /* =========================
+       MÉTODOS AVANZADOS
+    ========================= */
 
-    //Obtener todos los detalles del producto
+    // OBTENER DETALLE COMPLETO DEL PRODUCTO
     ProductoDetalleDTO obtenerDetalle(Long id);
 
-    //Listar Producto por categoria
-    List<Producto> listarPorCategoria(Long idCategoria);
+    // LISTAR PRODUCTOS POR CATEGORÍA PAGINADOS
+    Page<Producto> listarPorCategoria(
+            Long idCategoria,
+            int page,
+            int size
+    );
 
-    //ListarProductosPresentacion
-    List<ProductopresentacionDTO> listarProductosPresentacion();
+    // LISTAR PRODUCTOS PRESENTACIÓN PAGINADOS
+    Page<ProductopresentacionDTO> listarProductosPresentacion(
+            int page,
+            int size
+    );
 
-    //Para filtrar producto parte de ProductoPresentacionDto
-    List<ProductopresentacionDTO> filtrarProductos(
+    // FILTRAR PRODUCTOS PAGINADOS
+    Page<ProductopresentacionDTO> filtrarProductos(
             String categoria,
             String marca,
             Double minPrecio,
             Double maxPrecio,
-            String nombre
+            String nombre,
+            int page,
+            int size
     );
 
-    //Listar marcas
-    List<String> listarMarcas();
-
+    // LISTAR MARCAS PAGINADAS
+    Page<String> listarMarcas(
+            int page,
+            int size
+    );
 }

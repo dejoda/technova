@@ -1,4 +1,5 @@
-package gm.technova.service.impl;
+
+        package gm.technova.service.impl;
 
 import gm.technova.Entity.Caracteristica;
 import gm.technova.Entity.Producto;
@@ -10,75 +11,107 @@ import gm.technova.repository.CaracteristicaRepository;
 import gm.technova.repository.ProductoCaracteristicaRepository;
 import gm.technova.repository.ProductoRepository;
 import gm.technova.service.ProductoCaracteristicaService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProductoCaracteristicaServiceImpl implements ProductoCaracteristicaService {
-
-
+public class ProductoCaracteristicaServiceImpl
+        implements ProductoCaracteristicaService {
 
     @Autowired
-    private ProductoCaracteristicaRepository ProductoCaracteristicarepository;
+    private ProductoCaracteristicaRepository productoCaracteristicaRepository;
+
     @Autowired
     private ProductoRepository productoRepository;
+
     @Autowired
     private CaracteristicaRepository caracteristicaRepository;
 
-    //METODOS BASICOS
-    @Override
-    public List<ProductoCaracteristica> listar() {
-        return ProductoCaracteristicarepository.findAll();
-    }
+    /* =========================
+       METODOS BASICOS
+    ========================= */
 
+    @Override
+    public Page<ProductoCaracteristica> listar(Pageable pageable) {
+
+        return productoCaracteristicaRepository.findAll(pageable);
+    }
 
     @Override
     public void eliminar(Long id) {
-        ProductoCaracteristicarepository.deleteById(id);
-    }
-    //
 
-    //METODOS AVANZADOS
+        ProductoCaracteristica pc =
+                productoCaracteristicaRepository.findById(id)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Relación producto-característica no encontrada"
+                                )
+                        );
 
-    /*Listar las caracteristicas del producto (USANDO DTO Y MAPPER)*/
-    @Override
-    public List<ProductoCaracteristicaDTO> listarCaracteristicasporProducto(Long idProducto) {
-        List<ProductoCaracteristica> lista = ProductoCaracteristicarepository.findByProductoIdProducto(idProducto);
-
-        List<ProductoCaracteristicaDTO> dtoLista = new ArrayList<>();
-
-        for (ProductoCaracteristica pc : lista) {
-            dtoLista.add(ProductoCaracteristicaMapper.toDTO(pc));
-        }
-
-        return dtoLista;
+        productoCaracteristicaRepository.delete(pc);
     }
 
+    /* =========================
+       METODOS AVANZADOS
+    ========================= */
+
+    // Listar características por producto (DTO)
     @Override
-    public ProductoCaracteristica agregarCaracteristica(ProductoCaracteristicaInputDTO dto) {
+    public Page<ProductoCaracteristicaDTO> listarCaracteristicasporProducto(
+            Long idProducto,
+            Pageable pageable
+    ) {
 
-        Producto producto = productoRepository.findById(dto.getProductoId())
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        Page<ProductoCaracteristica> pagina =
+                productoCaracteristicaRepository
+                        .findByProductoIdProducto(idProducto, pageable);
 
-        Caracteristica caracteristica = caracteristicaRepository.findById(dto.getCaracteristicaId())
-                .orElseThrow(() -> new RuntimeException("Característica no encontrada"));
+        return pagina.map(ProductoCaracteristicaMapper::toDTO);
+    }
+
+    // Agregar característica a producto
+    @Override
+    public ProductoCaracteristica agregarCaracteristica(
+            ProductoCaracteristicaInputDTO dto
+    ) {
+
+        Producto producto = productoRepository
+                .findById(dto.getProductoId())
+                .orElseThrow(() ->
+                        new RuntimeException("Producto no encontrado")
+                );
+
+        Caracteristica caracteristica = caracteristicaRepository
+                .findById(dto.getCaracteristicaId())
+                .orElseThrow(() ->
+                        new RuntimeException("Característica no encontrada")
+                );
 
         ProductoCaracteristica pc = new ProductoCaracteristica();
+
         pc.setProducto(producto);
         pc.setCaracteristica(caracteristica);
         pc.setValor(dto.getValor());
 
-        return ProductoCaracteristicarepository.save(pc);
+        return productoCaracteristicaRepository.save(pc);
     }
 
-    //METODOS OMITIDOS -------
+    /* =========================
+       METODOS OMITIDOS
+    ========================= */
 
-    /*Listar por id_PRODUCTO*/
-   /* @Override
-    public List<ProductoCaracteristica> listarCaracteristicasPorProductoCompleto(Long idProducto) {
+    /*
+    @Override
+    public List<ProductoCaracteristica>
+    listarCaracteristicasPorProductoCompleto(Long idProducto) {
+
         return repository.findByProductoIdProducto(idProducto);
-    }*/
+    }
+    */
 }
+

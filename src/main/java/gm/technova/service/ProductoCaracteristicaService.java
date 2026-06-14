@@ -1,31 +1,45 @@
+
 package gm.technova.service;
 
 import gm.technova.Entity.ProductoCaracteristica;
 import gm.technova.dto.ProductoCaracteristicaDTO;
 import gm.technova.dto.ProductoCaracteristicaInputDTO;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface ProductoCaracteristicaService {
 
-    //METODOS BASICOS
-    List<ProductoCaracteristica> listar();
+    /* =========================
+       METODOS BASICOS
+    ========================= */
 
+    // Listar paginado
+    Page<ProductoCaracteristica> listar(Pageable pageable);
+
+    // Eliminar
     void eliminar(Long id);
 
+    /* =========================
+       METODOS AVANZADOS
+    ========================= */
 
-    //METODOS AVANZADOS
+    // Listar características por producto (DTO)
+    Page<ProductoCaracteristicaDTO> listarCaracteristicasporProducto(
+            Long idProducto,
+            Pageable pageable
+    );
 
-    /*Listar las caracteristicas del producto (USANDO DTO Y MAPPER)*/
-    List<ProductoCaracteristicaDTO> listarCaracteristicasporProducto(Long idProducto);
+    // Agregar característica a producto
+    ProductoCaracteristica agregarCaracteristica(
+            ProductoCaracteristicaInputDTO dto
+    );
 
+    /* =========================
+       METODOS OMITIDOS
+    ========================= */
 
-    /*METODOS OMITIDOS*/
+    // List<ProductoCaracteristica> listarCaracteristicasPorProductoCompleto(Long idProducto);
 
-    /*Listar por ID PRODUCTO*/
-
-    //List<ProductoCaracteristica> listarCaracteristicasPorProductoCompleto(Long idProducto);
-
-    //Agrear caracteristica a producto
-    ProductoCaracteristica agregarCaracteristica(ProductoCaracteristicaInputDTO dto);
 }
+

@@ -1,4 +1,4 @@
-package gm.technova.Config;
+package gm.technova.commons.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

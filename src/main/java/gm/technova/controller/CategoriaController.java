@@ -1,11 +1,15 @@
-package gm.technova.controller;
+
+        package gm.technova.controller;
 
 import gm.technova.Entity.Categoria;
+import gm.technova.commons.response.ApiResponse;
+import gm.technova.commons.response.PageResponse;
 import gm.technova.service.CategoriaService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/categorias")
@@ -14,28 +18,95 @@ public class CategoriaController {
     @Autowired
     private CategoriaService service;
 
+    /* =========================
+       LISTAR PAGINADO
+    ========================= */
     @GetMapping
-    public List<Categoria> listar() {
-        return service.listar();
+    public ApiResponse<PageResponse<Categoria>> listar(
+
+            @RequestParam(defaultValue = "0")
+            int page,
+
+            @RequestParam(defaultValue = "10")
+            int size,
+
+            @RequestParam(defaultValue = "idCategoria")
+            String sortBy,
+
+            @RequestParam(defaultValue = "asc")
+            String direction
+    ) {
+
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        return ApiResponse.ok(
+                "Categorías listadas correctamente",
+                service.listar(
+                        PageRequest.of(page, size, sort)
+                )
+        );
     }
 
+    /* =========================
+       BUSCAR POR ID
+    ========================= */
     @GetMapping("/{id}")
-    public Categoria buscarPorId(@PathVariable Long id) {
-        return service.buscarPorId(id);
+    public ApiResponse<Categoria> buscarPorId(
+            @PathVariable Long id
+    ) {
+
+        return ApiResponse.ok(
+                "Categoría encontrada",
+                service.buscarPorId(id)
+        );
     }
 
+    /* =========================
+       GUARDAR
+    ========================= */
     @PostMapping
-    public Categoria guardar(@RequestBody Categoria categoria) {
-        return service.guardar(categoria);
+    public ApiResponse<Categoria> guardar(
+            @RequestBody Categoria categoria
+    ) {
+
+        return ApiResponse.ok(
+                "Categoría registrada correctamente",
+                service.guardar(categoria)
+        );
     }
 
+    /* =========================
+       ACTUALIZAR
+    ========================= */
     @PutMapping("/{id}")
-    public Categoria actualizar(@PathVariable Long id, @RequestBody Categoria categoria) {
-        return service.actualizar(id, categoria);
+    public ApiResponse<Categoria> actualizar(
+
+            @PathVariable Long id,
+
+            @RequestBody Categoria categoria
+    ) {
+
+        return ApiResponse.ok(
+                "Categoría actualizada correctamente",
+                service.actualizar(id, categoria)
+        );
     }
 
+    /* =========================
+       ELIMINAR
+    ========================= */
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
+    public ApiResponse<Void> eliminar(
+            @PathVariable Long id
+    ) {
+
         service.eliminar(id);
+
+        return ApiResponse.ok(
+                "Categoría eliminada correctamente"
+        );
     }
 }
+

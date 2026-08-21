@@ -46,6 +46,7 @@ public class AuthService {
         String token = jwtService.generateToken(extraClaims, userDetails, expiration);
 
         String rol = usuario.getRol().getNombre();
+        
 
         return new LoginResponse(token, request.username(), rol);
     }

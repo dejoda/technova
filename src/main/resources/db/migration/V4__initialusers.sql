@@ -2,13 +2,13 @@
 -- USUARIOS
 -- Admin123*
 INSERT INTO usuario (username, password, rol_id) VALUES
-    ('admin',    '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1);
+    ('admin',    '$2a$10$lopHeEkXpf2kKesb1BcGB.pqrIS5ErV.HOjG41l7iT/La67fLgCh.', 1);
 -- Vendedor123*
 INSERT INTO usuario (username, password, rol_id) VALUES
-    ('vendedor', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2);
+    ('vendedor', '$2a$10$2I8jScXMcHNI1.ZV.agI7.KQ8acLIgNREiG9/xN.q2jFGllLeTeJ2', 2);
 -- Cliente123*
 INSERT INTO usuario (username, password, rol_id) VALUES
-    ('cliente',  '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 3);
+    ('cliente',  '$2a$10$lRyDZnq4ZREDeShckKLceeN/kp.AKzJWNUJ3PmdSw1haEJxdJfUyi', 3);
 
 -- PERFILES
 INSERT INTO administrador (nombre, apellido, correo, telefono, usuario_id) VALUES

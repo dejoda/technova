@@ -5,6 +5,8 @@ import gm.technova.productos.dto.ProductoImagenInputDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
+
 
 public interface ProductoImagenService {
 
@@ -25,5 +27,12 @@ public interface ProductoImagenService {
     // Agregar imagen a producto
     ProductoImagen agregarImagen(
             ProductoImagenInputDTO dto
+    );
+
+    // Subir archivo de imagen
+    ProductoImagen uploadImagen(
+            MultipartFile file,
+            Long productoId,
+            boolean isPrincipal
     );
 }

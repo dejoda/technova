@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import java.util.Set;
 
 @Entity
@@ -25,21 +24,22 @@ public class Producto {
     private Double precio;
     private Integer stock;
     private String descripcion;
-    private String marca;
+
+    @ManyToOne
+    @JoinColumn(name = "marca_id")
+    private Marca marca;
+
     private String modelo;
     private Long garantia;
 
-
     @ManyToOne
-    @JoinColumn(name = "categoria_id") // ← ESTA ES LA CLAVE FORÁNEA REAL
+    @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
     @OneToMany(mappedBy = "producto")
     private Set<ProductoImagen> imagenes;
 
     @OneToMany(mappedBy = "producto")
-    @JsonManagedReference// ← CAMBIAR DESPUES PUESTO POR MIENTRAS
+    @JsonManagedReference
     private Set<ProductoCaracteristica> caracteristicas;
-
-
 }

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/producto-imagenes")
@@ -48,10 +49,12 @@ public class ProductoImagenController {
         return service.agregarImagen(dto);
     }
 
-    /*
-    {
-        "productoId": 11,
-        "urlImagen": "https://i0.wp.com/mrtecnologies.com/wp-content/uploads/2023/08/G305-1.jpg?fit=1000%2C1000&ssl=1"
+    @PostMapping("/upload")
+    public ProductoImagen uploadImagen(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam Long productoId,
+            @RequestParam boolean isPrincipal
+    ) {
+        return service.uploadImagen(file, productoId, isPrincipal);
     }
-    */
 }

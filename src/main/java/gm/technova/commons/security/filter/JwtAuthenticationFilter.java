@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
-        // ✅ IGNORAR IMÁGENES (CLAVE PARA TU ERROR 403)
+        // ✅ IGNORAR SOLO RECURSOS ESTÁTICOS (CLAVE PARA EVITAR 403 EN IMÁGENES)
         if (path.startsWith("/images/")) {
             filterChain.doFilter(request, response);
             return;

@@ -67,6 +67,7 @@ public class CategoriaController {
        GUARDAR
     ========================= */
     @PostMapping
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public ApiResponse<Categoria> guardar(
             @RequestBody Categoria categoria
     ) {
@@ -81,6 +82,7 @@ public class CategoriaController {
        ACTUALIZAR
     ========================= */
     @PutMapping("/{id}")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public ApiResponse<Categoria> actualizar(
 
             @PathVariable Long id,
@@ -98,6 +100,7 @@ public class CategoriaController {
        ELIMINAR
     ========================= */
     @DeleteMapping("/{id}")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public ApiResponse<Void> eliminar(
             @PathVariable Long id
     ) {

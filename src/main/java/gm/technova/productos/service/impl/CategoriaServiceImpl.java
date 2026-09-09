@@ -3,6 +3,7 @@ package gm.technova.productos.service.impl;
 
 import gm.technova.productos.Entity.Categoria;
 import gm.technova.productos.repository.CategoriaRepository;
+import gm.technova.productos.repository.ProductoRepository;
 import gm.technova.productos.service.CategoriaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Autowired
     private CategoriaRepository repository;
+
+    @Autowired
+    private ProductoRepository productoRepository;
 
     /* =========================
        LISTAR PAGINADO
@@ -79,6 +83,10 @@ public class CategoriaServiceImpl implements CategoriaService {
                                 "Categoría no encontrada con ID: " + id
                         )
                 );
+
+        if (productoRepository.countByCategoriaIdCategoria(id) > 0) {
+            throw new RuntimeException("No se puede eliminar la categoría porque tiene productos asociados.");
+        }
 
         repository.delete(categoria);
     }

@@ -1,11 +1,12 @@
-
 package gm.technova.productos.controller;
 
 import gm.technova.productos.Entity.Producto;
 import gm.technova.commons.response.ApiResponse;
 import gm.technova.commons.response.PageResponse;
+import gm.technova.productos.dto.ProductoAdminDTO;
 import gm.technova.productos.dto.ProductoDetalleDTO;
 import gm.technova.productos.dto.ProductopresentacionDTO;
+import gm.technova.productos.dto.request.ProductoRequestDTO;
 import gm.technova.productos.service.ProductoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +29,10 @@ public class ProductoController {
     // LISTAR PRODUCTOS PAGINADOS
     @GetMapping
     public ApiResponse<PageResponse<Producto>> listar(
-
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-
         Page<Producto> productos = service.listar(page, size);
-
         return ApiResponse.ok(
                 "Lista de productos obtenida correctamente",
                 productos
@@ -46,7 +44,6 @@ public class ProductoController {
     public ApiResponse<Producto> buscarPorId(
             @PathVariable Long id
     ) {
-
         return ApiResponse.ok(
                 "Producto encontrado",
                 service.buscarPorId(id)
@@ -55,53 +52,36 @@ public class ProductoController {
 
     // GUARDAR PRODUCTO
     @PostMapping
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public ApiResponse<Producto> guardar(
-            @RequestBody Producto producto
+            @RequestBody ProductoRequestDTO productoRequest
     ) {
-
         return ApiResponse.ok(
                 "Producto guardado correctamente",
-                service.guardar(producto)
+                service.guardar(productoRequest)
         );
     }
 
-    /*
-    {
-        "nombre": "Logitech G305 Lightspeed Wireless Gaming Mouse",
-        "precio": 140.0,
-        "stock": 20,
-        "descripcion": "Mouse gamer inalámbrico",
-        "marca": "Logitech",
-        "modelo": "G305",
-        "garantia": 12,
-        "categoria": {
-            "idCategoria": 5
-        }
-    }
-    */
-
     // ACTUALIZAR PRODUCTO
     @PutMapping("/{id}")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public ApiResponse<Producto> actualizar(
-
             @PathVariable Long id,
-            @RequestBody Producto producto
+            @RequestBody ProductoRequestDTO productoRequest
     ) {
-
         return ApiResponse.ok(
                 "Producto actualizado correctamente",
-                service.actualizar(id, producto)
+                service.actualizar(id, productoRequest)
         );
     }
 
     // ELIMINAR PRODUCTO
     @DeleteMapping("/{id}")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public ApiResponse<Void> eliminar(
             @PathVariable Long id
     ) {
-
         service.eliminar(id);
-
         return ApiResponse.ok(
                 "Producto eliminado correctamente"
         );
@@ -116,25 +96,11 @@ public class ProductoController {
     public ApiResponse<ProductoDetalleDTO> obtenerDetalle(
             @PathVariable Long id
     ) {
-
         return ApiResponse.ok(
                 "Detalle del producto obtenido correctamente",
                 service.obtenerDetalle(id)
         );
     }
-
-    /*
-    ARCHIVOS USADOS:
-    ProductoController
-    ProductoMapper
-    ProductoRepository
-    ProductoServiceImpl
-    ProductoService
-    ProductoDetalleDTO
-    ProductoImagen
-    ProductoCaracteristica
-    Producto
-    */
 
     @GetMapping("/categoria/{id}")
     public ApiResponse<List<Producto>> listarPorCategoria(
@@ -146,34 +112,17 @@ public class ProductoController {
         );
     }
 
-
-
-    /*
-    FILTROS DISPONIBLES:
-
-    /productos/presentacion?categoria=Laptops
-
-    /productos/presentacion?marca=ASUS
-
-    /productos/presentacion?minPrecio=2000&maxPrecio=4000
-
-    /productos/presentacion?nombre=Mouse
-    */
-
     // LISTAR PRODUCTOS FILTRADOS Y PAGINADOS
     @GetMapping("/presentacion")
     public ApiResponse<PageResponse<ProductopresentacionDTO>> listarProductos(
-
             @RequestParam(required = false) String categoria,
             @RequestParam(required = false) String marca,
             @RequestParam(required = false) Double minPrecio,
             @RequestParam(required = false) Double maxPrecio,
             @RequestParam(required = false) String nombre,
-
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-
         Page<ProductopresentacionDTO> productos =
                 service.filtrarProductos(
                         categoria,
@@ -184,7 +133,6 @@ public class ProductoController {
                         page,
                         size
                 );
-
         return ApiResponse.ok(
                 "Productos filtrados correctamente",
                 productos
@@ -199,5 +147,31 @@ public class ProductoController {
                 service.listarMarcas(0, Integer.MAX_VALUE).getContent()
         );
     }
-}
 
+    // LISTAR PRODUCTOS PARA ADMIN (con stock real y categoriaId)
+    @GetMapping("/table-admin")
+    public ApiResponse<PageResponse<ProductoAdminDTO>> listarProductosAdmin(
+            @RequestParam(required = false) String categoria,
+            @RequestParam(required = false) String marca,
+            @RequestParam(required = false) Double minPrecio,
+            @RequestParam(required = false) Double maxPrecio,
+            @RequestParam(required = false) String nombre,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Page<ProductoAdminDTO> productos =
+                service.filtrarProductosAdmin(
+                        categoria,
+                        marca,
+                        minPrecio,
+                        maxPrecio,
+                        nombre,
+                        page,
+                        size
+                );
+        return ApiResponse.ok(
+                "Productos (admin) filtrados correctamente",
+                productos
+        );
+    }
+}

@@ -39,8 +39,17 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/productos/**").permitAll()
+                        .requestMatchers("/productos").permitAll()
                         .requestMatchers("/categorias/**").permitAll()
+                        .requestMatchers("/categorias").permitAll()
                         .requestMatchers("/images/**").permitAll()
+                        .requestMatchers("/images").permitAll()
+                        .requestMatchers("/marcas/**").permitAll()
+                        .requestMatchers("/marcas").permitAll()
+                        .requestMatchers("/producto-imagenes/**").hasRole("ADMIN")
+                        .requestMatchers("/producto-imagenes").hasRole("ADMIN")
+                        .requestMatchers("/movimientos-inventario/**").permitAll()
+                        .requestMatchers("/movimientos-inventario").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

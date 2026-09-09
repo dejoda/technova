@@ -1,9 +1,11 @@
 package gm.technova.productos.service;
 
 import gm.technova.productos.Entity.Producto;
+import gm.technova.productos.dto.ProductoAdminDTO;
 import gm.technova.productos.dto.ProductoDetalleDTO;
 import gm.technova.productos.dto.ProductopresentacionDTO;
 
+import gm.technova.productos.dto.request.ProductoRequestDTO;
 import org.springframework.data.domain.Page;
 
 public interface ProductoService {
@@ -21,13 +23,14 @@ public interface ProductoService {
     // BUSCAR PRODUCTO POR ID
     Producto buscarPorId(Long id);
 
+
     // GUARDAR PRODUCTO
-    Producto guardar(Producto producto);
+    Producto guardar(ProductoRequestDTO request);
 
     // ACTUALIZAR PRODUCTO
     Producto actualizar(
             Long id,
-            Producto producto
+            ProductoRequestDTO request
     );
 
     // ELIMINAR PRODUCTO
@@ -69,4 +72,15 @@ public interface ProductoService {
             int page,
             int size
     );
+    // FILTRAR PRODUCTOS PARA ADMIN (con stock real y categoriaId)
+    Page<ProductoAdminDTO> filtrarProductosAdmin(
+            String categoria,
+            String marca,
+            Double minPrecio,
+            Double maxPrecio,
+            String nombre,
+            int page,
+            int size
+    );
+
 }

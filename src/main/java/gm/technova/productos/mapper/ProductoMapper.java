@@ -24,7 +24,7 @@ public class ProductoMapper {
         dto.setPrecio(producto.getPrecio());
         dto.setStock(producto.getStock());
         dto.setCategoria(producto.getCategoria().getNombre());
-        dto.setMarca(producto.getMarca());
+        dto.setMarca(producto.getMarca() != null ? producto.getMarca().getNombre() : null);
         dto.setModelo(producto.getModelo());
         dto.setGarantia(producto.getGarantia());
 
@@ -69,7 +69,7 @@ public class ProductoMapper {
         dto.setNombre(producto.getNombre());
         dto.setPrecio(producto.getPrecio());
         dto.setDescripcion(producto.getDescripcion());
-        dto.setMarca(producto.getMarca()); // 👈 aquí
+        dto.setMarca(producto.getMarca() != null ? producto.getMarca().getNombre() : null); // 👈 aquí
         dto.setCategoria(
                 producto.getCategoria() != null ? producto.getCategoria().getNombre() : null
         );
@@ -78,5 +78,34 @@ public class ProductoMapper {
         return dto;
     }
 
+
+    public static ProductoAdminDTO toAdminDTO(Producto p) {
+        ProductoAdminDTO dto = new ProductoAdminDTO();
+        dto.setId(p.getIdProducto());
+        dto.setNombre(p.getNombre());
+        dto.setPrecio(p.getPrecio());
+        dto.setStock(p.getStock());
+        dto.setMarca(p.getMarca() != null ? p.getMarca().getNombre() : null);
+        dto.setModelo(p.getModelo());
+        dto.setGarantia(p.getGarantia());
+        dto.setDescripcion(p.getDescripcion());
+
+        if (p.getCategoria() != null) {
+            dto.setCategoriaId(p.getCategoria().getIdCategoria());
+            dto.setCategoria(p.getCategoria().getNombre());
+        }
+
+        if (p.getImagenes() != null) {
+            dto.setImagenes(p.getImagenes().stream()
+                    .map(img -> {
+                        ProductoImagenDTO idto = new ProductoImagenDTO();
+                        idto.setUrlImagen(img.getUrlImagen());
+                        idto.setPrincipal(img.getPrincipal());
+                        return idto;
+                    }).collect(Collectors.toList()));
+        }
+
+        return dto;
+    }
 
 }

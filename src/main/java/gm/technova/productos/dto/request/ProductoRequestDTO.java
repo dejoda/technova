@@ -8,7 +8,7 @@ public class ProductoRequestDTO {
     private Double precio;
     private Integer stock;
     private String descripcion;
-    private Long marcaId;
+    private String marca;
     private String modelo;
     private Long garantia;
     private Long categoriaId;

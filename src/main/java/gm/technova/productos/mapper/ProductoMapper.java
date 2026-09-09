@@ -2,9 +2,10 @@ package gm.technova.productos.mapper;
 
 
 import gm.technova.productos.dto.*;
-import gm.technova.productos.Entity.*;
 import gm.technova.productos.Entity.Producto;
 import gm.technova.productos.Entity.ProductoImagen;
+import gm.technova.productos.Entity.ProductoCaracteristica;
+import gm.technova.productos.Entity.Categoria;
 import gm.technova.productos.dto.ProductoCaracteristicaDTO;
 import gm.technova.productos.dto.ProductoDetalleDTO;
 import gm.technova.productos.dto.ProductoImagenDTO;
@@ -24,7 +25,7 @@ public class ProductoMapper {
         dto.setPrecio(producto.getPrecio());
         dto.setStock(producto.getStock());
         dto.setCategoria(producto.getCategoria().getNombre());
-        dto.setMarca(producto.getMarca() != null ? producto.getMarca().getNombre() : null);
+        dto.setMarca(producto.getMarca());
         dto.setModelo(producto.getModelo());
         dto.setGarantia(producto.getGarantia());
 
@@ -69,7 +70,7 @@ public class ProductoMapper {
         dto.setNombre(producto.getNombre());
         dto.setPrecio(producto.getPrecio());
         dto.setDescripcion(producto.getDescripcion());
-        dto.setMarca(producto.getMarca() != null ? producto.getMarca().getNombre() : null); // 👈 aquí
+        dto.setMarca(producto.getMarca());
         dto.setCategoria(
                 producto.getCategoria() != null ? producto.getCategoria().getNombre() : null
         );
@@ -85,7 +86,7 @@ public class ProductoMapper {
         dto.setNombre(p.getNombre());
         dto.setPrecio(p.getPrecio());
         dto.setStock(p.getStock());
-        dto.setMarca(p.getMarca() != null ? p.getMarca().getNombre() : null);
+        dto.setMarca(p.getMarca());
         dto.setModelo(p.getModelo());
         dto.setGarantia(p.getGarantia());
         dto.setDescripcion(p.getDescripcion());

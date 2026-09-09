@@ -25,9 +25,7 @@ public class Producto {
     private Integer stock;
     private String descripcion;
 
-    @ManyToOne
-    @JoinColumn(name = "marca_id")
-    private Marca marca;
+    private String marca;
 
     private String modelo;
     private Long garantia;

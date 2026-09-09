@@ -1,14 +1,12 @@
 package gm.technova.productos.service.impl;
 
 import gm.technova.productos.Entity.Producto;
-import gm.technova.productos.Entity.Marca;
-import gm.technova.productos.Entity.Categoria;
+
 import gm.technova.productos.dto.ProductoAdminDTO;
 import gm.technova.productos.dto.ProductoDetalleDTO;
 import gm.technova.productos.dto.ProductopresentacionDTO;
 import gm.technova.productos.mapper.ProductoMapper;
 import gm.technova.productos.repository.ProductoRepository;
-import gm.technova.productos.repository.MarcaRepository;
 import gm.technova.productos.repository.CategoriaRepository;
 import gm.technova.productos.service.ProductoService;
 import gm.technova.productos.service.MovimientoInventarioService;
@@ -26,9 +24,6 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Autowired
     private ProductoRepository repository;
-
-    @Autowired
-    private MarcaRepository marcaRepository;
 
     @Autowired
     private CategoriaRepository categoriaRepository;
@@ -62,10 +57,7 @@ public class ProductoServiceImpl implements ProductoService {
         producto.setDescripcion(request.getDescripcion());
         producto.setModelo(request.getModelo());
         producto.setGarantia(request.getGarantia());
-
-        if (request.getMarcaId() != null) {
-            producto.setMarca(marcaRepository.findById(request.getMarcaId()).orElse(null));
-        }
+        producto.setMarca(request.getMarca());
 
         if (request.getCategoriaId() != null) {
             producto.setCategoria(categoriaRepository.findById(request.getCategoriaId()).orElse(null));
@@ -102,10 +94,7 @@ public class ProductoServiceImpl implements ProductoService {
             existente.setDescripcion(request.getDescripcion());
             existente.setModelo(request.getModelo());
             existente.setGarantia(request.getGarantia());
-
-            if (request.getMarcaId() != null) {
-                existente.setMarca(marcaRepository.findById(request.getMarcaId()).orElse(null));
-            }
+            existente.setMarca(request.getMarca());
 
             if (request.getCategoriaId() != null) {
                 existente.setCategoria(categoriaRepository.findById(request.getCategoriaId()).orElse(null));
@@ -155,8 +144,7 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public Page<String> listarMarcas(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return marcaRepository.findAll(pageable)
-                .map(Marca::getNombre);
+        return repository.obtenerMarcas(pageable);
     }
 
     @Override

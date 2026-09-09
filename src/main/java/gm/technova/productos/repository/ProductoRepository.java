@@ -48,12 +48,10 @@ public interface ProductoRepository
 
     @Query("""
         SELECT p FROM Producto p
-        LEFT JOIN p.categoria c
-        LEFT JOIN p.marca m
         WHERE (:categoria IS NULL
-            OR LOWER(c.nombre) = LOWER(:categoria))
+            OR LOWER(p.categoria.nombre) = LOWER(:categoria))
         AND (:marca IS NULL
-            OR LOWER(m.nombre) = LOWER(:marca))
+            OR LOWER(p.marca) = LOWER(:marca))
         AND (:minPrecio IS NULL
             OR p.precio >= :minPrecio)
         AND (:maxPrecio IS NULL
@@ -82,7 +80,7 @@ public interface ProductoRepository
             p.precio,
             c.nombre,
             p.descripcion,
-            p.marca.nombre,
+            p.marca,
             pi.urlImagen
         )
         FROM Producto p
@@ -99,9 +97,9 @@ public interface ProductoRepository
        ========================================================= */
 
     @Query("""
-        SELECT DISTINCT p.marca.nombre
+        SELECT DISTINCT p.marca
         FROM Producto p
-        ORDER BY p.marca.nombre ASC
+        ORDER BY p.marca ASC
     """)
     Page<String> obtenerMarcas(
             Pageable pageable
@@ -114,7 +112,7 @@ public interface ProductoRepository
     LEFT JOIN p.categoria c
     LEFT JOIN p.imagenes pi ON pi.principal = true
     WHERE (:nombre IS NULL OR LOWER(p.nombre) LIKE LOWER(CONCAT('%', :nombre, '%'))
-        OR LOWER(p.marca.nombre) LIKE LOWER(CONCAT('%', :nombre, '%'))
+        OR LOWER(p.marca) LIKE LOWER(CONCAT('%', :nombre, '%'))
         OR LOWER(p.modelo) LIKE LOWER(CONCAT('%', :nombre, '%')))
     AND (:categoriaId IS NULL OR c.idCategoria = :categoriaId)
     """)

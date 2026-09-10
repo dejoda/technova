@@ -35,4 +35,10 @@ public interface ProductoImagenService {
             Long productoId,
             boolean isPrincipal
     );
+
+    // Cambiar imagen principal
+    void updatePrincipal(Long imagenId, boolean isPrincipal);
+
+    // Eliminar imagen
+    void eliminarImagen(Long imagenId);
 }

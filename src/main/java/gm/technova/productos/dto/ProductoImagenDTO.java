@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class ProductoImagenDTO {
+    private Long id;
     private String urlImagen;
     private Boolean principal;
 }

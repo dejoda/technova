@@ -57,4 +57,19 @@ public class ProductoImagenController {
     ) {
         return service.uploadImagen(file, productoId, isPrincipal);
     }
+
+    @PutMapping("/principal/{id}")
+    public void updatePrincipal(
+            @PathVariable Long id,
+            @RequestParam boolean isPrincipal
+    ) {
+        service.updatePrincipal(id, isPrincipal);
+    }
+
+    @DeleteMapping("/{id}")
+    public void eliminarImagen(
+            @PathVariable Long id
+    ) {
+        service.eliminarImagen(id);
+    }
 }

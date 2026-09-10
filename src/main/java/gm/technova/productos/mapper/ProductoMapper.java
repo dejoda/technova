@@ -33,6 +33,7 @@ public class ProductoMapper {
             dto.setImagenes(
                     producto.getImagenes().stream().map(img -> {
                         ProductoImagenDTO i = new ProductoImagenDTO();
+                        i.setId(img.getIdImagen());
                         i.setUrlImagen(img.getUrlImagen());
                         i.setPrincipal(img.getPrincipal());
                         return i;
@@ -100,6 +101,7 @@ public class ProductoMapper {
             dto.setImagenes(p.getImagenes().stream()
                     .map(img -> {
                         ProductoImagenDTO idto = new ProductoImagenDTO();
+                        idto.setId(img.getIdImagen());
                         idto.setUrlImagen(img.getUrlImagen());
                         idto.setPrincipal(img.getPrincipal());
                         return idto;
